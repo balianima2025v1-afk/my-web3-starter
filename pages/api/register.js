@@ -1,19 +1,26 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = 'https://nicolbhswiggmqdacvud.supabase.co'
-const supabaseKey = process.env.SUPABASE_KEY
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 const supabase = createClient(supabaseUrl, supabaseKey)
-)
 
 export default async function handler(req, res) {
-  console.log("Supabase URL:", process.env.NEXT_PUBLIC_SUPABASE_URL)
+  console.log("Supabase URL:", supabaseUrl)
+  console.log("Supabase Key (first 10 chars):", supabaseKey?.slice(0, 10))
   console.log("Request Body:", req.body)
 
   if (req.method === "POST") {
     const { email, wallet } = req.body
 
     if (!email || !wallet) {
-      return res.status(400).json({ error: "Email and wallet are required" })
+      return res.status(400).json({ error: "Email dan wallet wajib diisi" })
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return res.status(400).json({ error: "Format email salah" })
+    }
+    if (!/^0x[a-fA-F0-9]{40}$/.test(wallet)) {
+      return res.status(400).json({ error: "Alamat wallet salah" })
     }
 
     const { data, error } = await supabase
@@ -25,9 +32,7 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: error.message })
     }
 
-    console.log("Inserted Data:", data)
+    console.log("Data Masuk:", data)
     return res.status(200).json({ success: true, data })
-  }
-
-  return res.status(405).json({ error: "Method not allowed" })
+  }return res.status(405).json({ error: "Metode tidak diizinkan" })
 }
