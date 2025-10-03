@@ -7,11 +7,10 @@ const supabase = createClient(
 
 export default async function handler(req, res) {
   console.log("Supabase URL:", process.env.NEXT_PUBLIC_SUPABASE_URL)
-  console.log("Supabase Key:", process.env.SUPABASE_SERVICE_ROLE_KEY)
+  console.log("Request Body:", req.body)
 
   if (req.method === "POST") {
     const { email, wallet } = req.body
-    console.log("Request Body:", req.body)
 
     if (!email || !wallet) {
       return res.status(400).json({ error: "Email and wallet are required" })
@@ -26,6 +25,7 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: error.message })
     }
 
+    console.log("Inserted Data:", data)
     return res.status(200).json({ success: true, data })
   }
 
