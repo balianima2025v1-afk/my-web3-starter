@@ -1,14 +1,19 @@
 {
-  "name": "supabase-trial-app",
+  "name": "my-web3-starter",
   "version": "1.0.0",
+  "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start"
   },
-"devDependencies": {
-  "typescript": "^5.6.2",
-  "@types/react": "^18.3.8",
-  "@types/node": "^20.5.7"
+  "dependencies": {
+    "next": "14.2.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "@supabase/supabase-js": "^2.43.1"
+  },
+  "devDependencies": {
+    "eslint": "8.57.0"
+  }
 }
-
