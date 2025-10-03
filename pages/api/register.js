@@ -1,12 +1,13 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY
-const supabase = createClient(supabaseUrl, supabaseKey)
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY
+)
 
 export default async function handler(req, res) {
-  console.log("Supabase URL:", supabaseUrl)
-  console.log("Supabase Key (first 10 chars):", supabaseKey?.slice(0, 10))
+  console.log("Supabase URL:", process.env.NEXT_PUBLIC_SUPABASE_URL)
+  console.log("Supabase Key (first 10 chars):", process.env.SUPABASE_SERVICE_ROLE_KEY?.slice(0, 10))
   console.log("Request Body:", req.body)
 
   if (req.method === "POST") {
@@ -34,5 +35,4 @@ export default async function handler(req, res) {
 
     console.log("Data Masuk:", data)
     return res.status(200).json({ success: true, data })
-  }return res.status(405).json({ error: "Metode tidak diizinkan" })
-}
+  }
